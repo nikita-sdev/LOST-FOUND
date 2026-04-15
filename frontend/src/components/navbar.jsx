@@ -10,7 +10,7 @@ const Navbar=()=>{
       {/* Links */}
       <div className="flex gap-6">
         <a href="/home" className="hover:text-gray-300">Home</a>
-        {/* <a href="/add-transaction" className="hover:text-gray-300">Add Transaction</a> */}
+        <a href="/add-post" className="hover:text-gray-300">Add Post</a>
         <a href="/logout" className="hover:text-gray-300">Logout</a>
       </div>
 

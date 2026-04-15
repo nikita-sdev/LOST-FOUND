@@ -9,6 +9,7 @@ import Signup from './components/signup';
 import Logout from './components/logout';
 import Navbar from './components/navbar';
 import Home from './components/home';
+import AddItem from './components/addItem';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       <Route path='/logout' element={token?<Logout setToken={setToken}></Logout>:<Navigate to= "/login"></Navigate>}></Route>
 
       <Route path='/home' element={token?<Home></Home>:<Navigate to= "/login"></Navigate>}></Route>
+      <Route path='/add-post' element={token?<AddItem></AddItem>:<Navigate to= "/login"></Navigate>}></Route>
     </Routes>
     </BrowserRouter>
   )
