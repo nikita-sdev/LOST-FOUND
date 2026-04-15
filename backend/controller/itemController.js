@@ -16,6 +16,16 @@ exports.addItem= async(req,res,next)=>{
     res.status(201).json({msg:"Item created"})
   }
   catch(err){
-    return res.status(500).json({msg:"Server error"});
+    res.status(500).json({msg:"Server error"});
+  }
+}
+
+exports.getItem= async(req,res,next)=>{
+  try{
+    const items= await Item.find().sort({createdAt: -1});
+    res.json(items);
+  }
+  catch(err){
+    res.status(500).json({msg: "server error"});
   }
 }

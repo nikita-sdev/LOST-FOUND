@@ -10,6 +10,8 @@ const router= express.Router();
 
 router.post("/add-post",authMiddleware, itemController.addItem);
 
+router.get("/home", authMiddleware, itemController.get);
+
 
 
 module.exports= router;
