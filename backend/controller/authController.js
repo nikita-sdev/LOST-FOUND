@@ -2,11 +2,11 @@ const bcrypt= require('bcryptjs');
 const jwt= require('jsonwebtoken');
 
 const User= require('../model/user');
+require('dotenv').config();
 
-
-exports.postLogin= async(requestAnimationFrame,res,next)=>{
+exports.postLogin= async(req,res,next)=>{
   try{
-    const {email,password}= requestAnimationFrame.body;
+    const {email,password}= req.body;
     if(!email || !password){
       return res.status(400).json({msg:"Both fields are required"});
     }
@@ -23,7 +23,7 @@ exports.postLogin= async(requestAnimationFrame,res,next)=>{
     }
 
     const token = jwt.sign(
-      {userId:user._id},
+      {id:user._id},
       process.env.JWT_KEY,
       {expiresIn: "1d"}
     );
@@ -35,16 +35,16 @@ exports.postLogin= async(requestAnimationFrame,res,next)=>{
   }
 }
 
-exports.postSignup= async(requestAnimationFrame,res,next)=>{
+exports.postSignup= async(req,res,next)=>{
   try{
-    const {email,password}= requestAnimationFrame.body;
+    const {email,password}= req.body;
 
     if(!email || !password){
       return res.status(400).json({msg:"Both fields are required"});
     }
 
     
-    if(!email.endsWith("@gamil.com")){
+    if(!email.endsWith("@gmail.com")){
       return res.status(400).json({msg:"Invalid email format"});
     }
 
