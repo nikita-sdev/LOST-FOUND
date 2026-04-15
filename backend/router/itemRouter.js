@@ -10,7 +10,7 @@ const router= express.Router();
 
 router.post("/add-post",authMiddleware, itemController.addItem);
 
-router.get("/home", authMiddleware, itemController.get);
+router.get("/home", authMiddleware, itemController.getItem);
 
 
 

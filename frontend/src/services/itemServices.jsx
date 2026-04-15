@@ -18,3 +18,16 @@ export const addItemToServer= async (title,product, description, location,type,s
     setError(data.msg);
   }
 }
+
+export const getItemsFromServer = async()=>{
+  const token= localStorage.getItem("token");
+  const res= await fetch(`${BASE_URL}/api/home`,{
+    headers:{
+      Authorization: `Bearer ${token}`,
+    }
+  })
+  const data= await res.json();
+  if(res.ok){
+    return data;
+  }
+}
