@@ -7,6 +7,8 @@ import { useState } from 'react'
 import Login from './components/login';
 import Signup from './components/signup';
 import Logout from './components/logout';
+import Navbar from './components/navbar';
+import Home from './components/home';
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    {token && <Navbar></Navbar>}
     <Routes>
       <Route path='/' element={token?<Navigate to= '/home'></Navigate>:<Navigate to='/login'></Navigate>}></Route>
       <Route path='/login' element={!token ?<Login setToken={setToken}></Login>: <Navigate to="/home"></Navigate>}></Route>
@@ -21,6 +24,8 @@ function App() {
       <Route path='/signup' element={!token?<Signup></Signup>:<Navigate to='/home'></Navigate>}></Route>
 
       <Route path='/logout' element={token?<Logout setToken={setToken}></Logout>:<Navigate to= "/login"></Navigate>}></Route>
+
+      <Route path='/home' element={token?<Home></Home>:<Navigate to= "/login"></Navigate>}></Route>
     </Routes>
     </BrowserRouter>
   )
