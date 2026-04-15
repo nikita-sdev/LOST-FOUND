@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getItemsFromServer } from "../services/itemServices";
+import { useNavigate } from "react-router-dom";
 
 const Home=()=>{
+  const navigate= useNavigate()
   const [items,setItems]= useState([]);
   const [filter, setFilter]= useState("all");
   const [search, setSearch]= useState("");
   
-
+  //fatch items initially
   const fetchItems= async()=>{
     const data= await getItemsFromServer();
     setItems(data);
@@ -16,9 +18,7 @@ const Home=()=>{
     fetchItems();
   },[]);
 
-  // const filteredItems= 
-  //   filter==="all"?items: items.filter(item=>item.type === filter);
-
+  //filter items based on search and dropdown
   const filteredItems = items.filter((item)=>{
     const matchFilter= filter==="all" || item.type===filter;
 
@@ -99,8 +99,11 @@ const Home=()=>{
               </div>
 
               {/* BOTTOM */}
-              <div className="mt-6 text-sm text-blue-900 font-semibold">
-                📍 {item.location}
+              <div className="mt-6 flex items-center gap-10 text-sm text-blue-900 font-semibold">
+                <p>📍 {item.location}</p>
+                <button className="ml-auto bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                onClick={()=>navigate(`/item/${item._id}`)}
+                >View Details</button>
               </div>
 
             </article>

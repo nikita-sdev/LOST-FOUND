@@ -29,3 +29,13 @@ exports.getItem= async(req,res,next)=>{
     res.status(500).json({msg: "server error"});
   }
 }
+
+exports.getItemById= async(req,res,next)=>{
+  try{
+    const item = await Item.findById(req.params.id);
+    res.json(item);
+  }
+  catch(err){
+    res.status(500).json({msg:"Server error"})
+  }
+}

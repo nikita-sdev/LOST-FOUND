@@ -12,6 +12,6 @@ router.post("/add-post",authMiddleware, itemController.addItem);
 
 router.get("/home", authMiddleware, itemController.getItem);
 
-
+router.get("/items/:id", itemController.getItemById);
 
 module.exports= router;

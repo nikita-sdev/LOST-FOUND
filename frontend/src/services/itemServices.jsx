@@ -31,3 +31,17 @@ export const getItemsFromServer = async()=>{
     return data;
   }
 }
+
+//get one specific item
+export const getItemById= async(id)=>{
+  const token= localStorage.getItem("token");
+  const res= await fetch(`${BASE_URL}/api/items/${id}`,{
+    headers:{
+      Authorization: `Bearer ${token}`,
+    }
+  })
+  const data= await res.json();
+  if(res.ok){
+    return data;
+  }
+}

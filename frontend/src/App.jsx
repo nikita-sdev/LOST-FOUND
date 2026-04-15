@@ -10,6 +10,7 @@ import Logout from './components/logout';
 import Navbar from './components/navbar';
 import Home from './components/home';
 import AddItem from './components/addItem';
+import ItemDetails from './components/itemDetails';
 
 function App() {
 
@@ -28,6 +29,8 @@ function App() {
 
       <Route path='/home' element={token?<Home></Home>:<Navigate to= "/login"></Navigate>}></Route>
       <Route path='/add-post' element={token?<AddItem></AddItem>:<Navigate to= "/login"></Navigate>}></Route>
+
+      <Route path='/item/:id' element={token?<ItemDetails></ItemDetails>:<Navigate to= "/login"></Navigate>}></Route>
     </Routes>
     </BrowserRouter>
   )
