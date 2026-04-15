@@ -29,16 +29,16 @@ const AddItem=()=>{
   }
 
   return (
-    <div className="flex bg-gradient-to-r from-black via-blue-900 to-black min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex bg-gradient-to-r from-white via-blue-500 to-blue-200 min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#fff]">
+          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-navi-700">
             Add Post
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
                 Title
               </label>
               <div className="mt-2">
@@ -54,7 +54,7 @@ const AddItem=()=>{
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
                 Product Name
               </label>
               <div className="mt-2">
@@ -70,7 +70,7 @@ const AddItem=()=>{
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
                 Description
               </label>
               <div className="mt-2">
@@ -84,7 +84,7 @@ const AddItem=()=>{
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
                 Location
               </label>
               <div className="mt-2">
@@ -101,7 +101,7 @@ const AddItem=()=>{
 
             <div>
               <div className="flex items-center justify-between mt-5">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-300">
+                <label htmlFor="password" className="block text-sm/6 font-medium text-navi-300">
                 Type
                 </label>
               </div>
