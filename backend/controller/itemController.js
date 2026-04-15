@@ -1,0 +1,21 @@
+const Item= require('../model/items');
+
+exports.addItem= async(req,res,next)=>{
+  try{
+    const {title,product, description, location,type} =req.body;
+    const user= req.userId;
+    if(!title || !product || !description || !location || ! type) {
+      return res.status(400).json({msg: "All fields are required"});
+    }
+
+    const item = new Item({
+      title,product,description,location,type,user
+    });
+
+    await item.save();
+    res.status(201).json({msg:"Item created"})
+  }
+  catch(err){
+    return res.status(500).json({msg:"Server error"});
+  }
+}
