@@ -106,3 +106,5 @@ Each item has a status:
 
 ---
 
+## Note
+- AI tools were used for guidance and learning purposes during development.
