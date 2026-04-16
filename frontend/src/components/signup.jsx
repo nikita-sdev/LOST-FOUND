@@ -34,6 +34,7 @@ const Signup= ()=>{
                   id="email"
                   name="email"
                   type="email"
+                  placeholder="eg: jonh@gmail.com"
                   onChange={(e)=>{setEmail(e.target.value)}}
                   required
                   autoComplete="email"
@@ -54,6 +55,7 @@ const Signup= ()=>{
                   type="text"
                   onChange={(e)=>{setName(e.target.value)}}
                   required
+                  placeholder="eg: John Doe"
                   autoComplete="current-password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 border-2 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -71,6 +73,7 @@ const Signup= ()=>{
                   id="password"
                   name="password"
                   type="password"
+                  placeholder="Enter your password"
                   onChange={(e)=>{setPassword(e.target.value)}}
                   required
                   autoComplete="current-password"

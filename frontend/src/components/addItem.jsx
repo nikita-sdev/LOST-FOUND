@@ -47,6 +47,7 @@ const AddItem=()=>{
                   name="title"
                   type="text"
                   ref={titleRef}
+                  placeholder="eg: Found school bag"
                   required
                   className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
@@ -64,6 +65,7 @@ const AddItem=()=>{
                   type="text"
                   ref={productRef}
                   required
+                  placeholder="eg: Bag"
                   className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>
@@ -78,6 +80,7 @@ const AddItem=()=>{
                   type="text"
                   ref={descriptionRef}
                   required
+                  placeholder="eg: I found an school bag today in the New Gallery"
                   className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>
@@ -93,6 +96,7 @@ const AddItem=()=>{
                   name="location"
                   type="text"
                   ref={locationRef}
+                  placeholder="eg: New Gallery"
                   required
                   className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />

@@ -34,6 +34,7 @@ const Login=({setToken})=>{
                   id="email"
                   name="email"
                   type="email"
+                  placeholder="Enter you registered email"
                   onChange={(e)=>{setEmail(e.target.value)}}
                   required
                   autoComplete="email"
@@ -52,6 +53,7 @@ const Login=({setToken})=>{
                 <input
                   id="password"
                   name="password"
+                  placeholder="Enter your password"
                   type="password"
                   required
                   onChange={(e)=>setPassword(e.target.value)}
