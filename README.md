@@ -90,7 +90,9 @@ Each item has a status:
 ## Future Improvements
 
 - Smart matching system using keywords & similarity
-- Add notification when claims on the owner dashboard
+- Add notification when claims on the owner 
+  dashboard
+- Improve verification
 - Improved UI/UX
 
 ---
@@ -99,7 +101,7 @@ Each item has a status:
 
 ##  Team
 
-- Your Name (Nikita Sharma)
+- Nikita Sharma
 - Arunangshu Raj Dey
 
 ---
