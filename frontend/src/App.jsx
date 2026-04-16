@@ -12,6 +12,7 @@ import Home from './components/home';
 import AddItem from './components/addItem';
 import ItemDetails from './components/itemDetails';
 import Verify from './components/verify';
+import DashBoard from './components/dashBoard';
 
 function App() {
 
@@ -34,6 +35,8 @@ function App() {
       <Route path='/item/:id' element={token?<ItemDetails></ItemDetails>:<Navigate to= "/login"></Navigate>}></Route>
 
       <Route path='/verify/:id' element={token?<Verify></Verify>:<Navigate to= "/login"></Navigate>}></Route>
+
+      <Route path='/dashboard' element={token?<DashBoard></DashBoard>:<Navigate to= "/login"></Navigate>}></Route>
     </Routes>
     </BrowserRouter>
   )

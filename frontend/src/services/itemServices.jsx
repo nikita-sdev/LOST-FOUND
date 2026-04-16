@@ -76,7 +76,7 @@ export const submitAnswers=async(id, formattedAnswers,setError)=>{
             Authorization: `Bearer ${localStorage.getItem("token")}`
           },
           body: JSON.stringify({
-            answers: formattedAnswers
+            answers: formattedAnswers,
           })
         }
       );
@@ -88,4 +88,75 @@ export const submitAnswers=async(id, formattedAnswers,setError)=>{
         return;
       }
       return data;
+}
+
+//get items posted by owner from server
+export const getOwnerItemsFromServer= async()=>{
+  const res= await fetch(`${BASE_URL}/api/owner/items`,{
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+  const data= await res.json();
+  return data;
+}
+
+//get owner items under verification from server
+export const getOwnerItemsUnderVerification= async()=>{
+  const res= await fetch(`${BASE_URL}/api/owner/verification`,{
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+
+  const data= await res.json();
+  return data;
+}
+
+//owner decide update
+export const decideClaim= async(itemId, claimId, action)=>{
+  const res= await fetch(`${BASE_URL}/api/items/${itemId}/claims/${claimId}`,{
+    method:"PATCH",
+    headers:{
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    },
+    body : JSON.stringify({action})
+  })
+  const data= await res.json();
+  return data;
+}
+
+//getUser notificationsexport 
+export const getUserNotifications= async()=>{
+  const res= await fetch(`${BASE_URL}/api/notifications`, {
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  });
+  const data= await res.json();
+  console.log(data);
+  return data;
+}
+
+//mark notification as read
+export const markNotificationReadOnServer= async()=>{
+  const res= await fetch(`${BASE_URL}/api/notifications/read`,{
+    method: "PATCH",
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+}
+
+//owner item delte
+export const deleteItemFromServer= async(id)=>{
+  const res= await fetch(`${BASE_URL}/api/items/${id}`,{
+    method: "DELETE",
+    headers:{
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  })
+
+  return await res.json();
 }

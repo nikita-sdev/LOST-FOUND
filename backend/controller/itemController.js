@@ -1,4 +1,5 @@
 const Item= require('../model/items');
+const User= require('../model/user');
 
 exports.addItem= async(req,res,next)=>{
   try{
@@ -70,6 +71,7 @@ exports.claimItem = async(req,res,next)=>{
   }
 }
 
+//submit answers api
 exports.submitAnswers = async(req,res,next)=>{
   try {
     const {answers}= req.body;
@@ -91,7 +93,7 @@ exports.submitAnswers = async(req,res,next)=>{
     item.claims.push({
       user: req.userId,
       answers: answers,
-      status: "pending"
+      status: "pending",
     });
 
     item.status = "under_verification";
@@ -103,4 +105,100 @@ exports.submitAnswers = async(req,res,next)=>{
     console.log(err);
     res.status(500).json({msg: "Server error"})
   }
+}
+
+//getting owner items api
+exports.getOwnerItems= async(req,res,next)=>{
+  const items= await Item.find({user: req.userId});
+  res.json(items);
+}
+
+//get items under verification posted by owner
+exports.getItemUnderVerification= async(req,res,next)=>{
+  const items= await Item.find({user: req.userId, status: "under_verification"}).populate("claims.user", "name email");
+  res.json(items);
+}
+
+//owner claim update
+exports.decideClaim= async(req,res,next)=>{
+  try{
+    const {itemId, claimId} = req.params;
+    const {action}= req.body;
+
+    const curUser= await User.findById(req.userId);
+
+    const item= await Item.findById(itemId);
+
+    if(!item) return res.status(404).json({msg: "Item not Found"});
+
+    if(item.user.toString() !== req.userId){
+      return res.status(403).json({msg: "Not Owner"});
+    }
+
+    const claim= item.claims.id(claimId);
+    if(!claim){
+      return res.status(404).json({ msg: "Claim not found" });
+    }
+
+    claim.status= action==="approve"? "approved": "rejected";
+    let message="";
+
+    if(action==="approve"){
+      item.status= "returned";
+      message= `Your claim for Item Title: ${item.title} was approved. Contact: ${curUser.email}`
+    }
+
+    if(action==="rejected"){
+      item.status= "available";
+      message= `Your claim for Item Title: ${item.title} was rejected`
+    }
+
+    await item.save();
+    await User.findByIdAndUpdate(claim.user, {
+      $push: {
+        notifications: {
+          message,
+          read:false,
+        }
+      }
+    })
+
+    res.json({msg: "Decision updated", item})
+  }
+  catch(Err){
+    console.log(Err);
+    return res.status(500).json({msg: "Server error"});
+  }
+}
+
+//notification for user
+exports.getNotifications = async(req,res)=>{
+  const user= await User.findById(req.userId);
+  res.json(user.notifications);
+}
+
+//markNotificationsRead 
+exports.markedNotificationsRead= async(req,res,next)=>{
+  const user= await User.findById(req.userId);
+  user.notifications.forEach(n=>n.read= true);
+
+  await user.save();
+
+  res.json({msg: "Marked as read"});
+}
+
+//user delete item
+exports.deleteItem=async(req,res,next)=>{
+  const item= await Item.findById(req.params.id);
+
+  if(!item){
+    return res.status(404).json({ msg: "Item not found" })
+  }
+
+  // if(item.status==="under_verification"){
+  //   return res.status(404).json({msg: "Cannot delete as item is under verification"});
+  // }
+
+  await Item.findByIdAndDelete(req.params.id);
+  res.json({msg: "Item deleted successfully"});
 }

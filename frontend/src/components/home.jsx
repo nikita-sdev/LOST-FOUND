@@ -72,7 +72,7 @@ const Home=()=>{
           {filteredItems.length===0? (
             <article className="flex max-w-xl flex-col items-start justify-between   p-5">
               <div className="flex items-center gap-x-4 text-xs">
-                <h2 className="text-2xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">No matching item</h2>
+                <h2 className="text-2xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">No item found</h2>
               </div>
               </article>
           ):(
@@ -89,6 +89,10 @@ const Home=()=>{
                   : "bg-green-100 text-green-700"
               }`}>
                 {item.type}
+              </span>
+              <span 
+                className={`rounded-full px-3 py-1 text-xs font-medium `}>
+                Status: <span className={`text-sm ${item.status==="returned"?"text-red-700":"text-blue-700"}`}>{item.status}</span>
               </span>
               </div>
 

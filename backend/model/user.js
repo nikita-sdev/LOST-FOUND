@@ -8,7 +8,14 @@ const userSchema= mongoose.Schema({
   password:{
     type:String,
     required:true,
-  }
+  },
+  name: { type: String }, 
+  notifications: [
+    {
+      message: String,
+      read: {type: Boolean, default:false}
+    }
+  ]
 })
 
 module.exports = mongoose.model("User",userSchema);

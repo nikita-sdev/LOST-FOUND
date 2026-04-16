@@ -7,9 +7,10 @@ const Signup= ()=>{
   const [email, setEmail]= useState("");
   const [password, setPassword]= useState("");
   const [error, setError]= useState("");
+  const [name, setName]= useState("");
 
   const handleSignup=async()=>{
-    const res= await addSignupToServer(email,password,setError);
+    const res= await addSignupToServer(email,password,name,setError);
     if(res){
       navigate("/login");
     }
@@ -37,6 +38,24 @@ const Signup= ()=>{
                   required
                   autoComplete="email"
                   className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mt-5">
+                <label className="block text-sm/6 font-medium text-gray-900">
+                  Name
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+                  
+                  type="text"
+                  onChange={(e)=>{setName(e.target.value)}}
+                  required
+                  autoComplete="current-password"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 border-2 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>
             </div>

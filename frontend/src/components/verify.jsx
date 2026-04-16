@@ -43,7 +43,7 @@ const Verify=()=>{
         answer: answers[i] || ""
       }));
 
-      const data = await submitAnswers(id, formattedAnswers, setError);
+      const data = await submitAnswers(id, formattedAnswers,setError);
 
       if(data){
       alert("Answers submitted successfully!");
@@ -88,17 +88,19 @@ const Verify=()=>{
               onChange={(e) => handleChange(i, e.target.value)}
               placeholder="Your answer..."
             />
+            
           </div>
         ))}
-
         {error && (
           <p className="text-red-500 text-sm mb-2">{error}</p>
         )}
 
+
+
         {/* SUBMIT */}
         <button
           onClick={handleSubmit}
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          className="w-full mt-10 bg-green-500 text-white py-2 rounded hover:bg-green-600"
         >
           Submit Answers
         </button>

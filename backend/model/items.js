@@ -34,7 +34,7 @@ claims: [
         type: String,
         enum: ["pending", "approved", "rejected"],
         default: "pending"
-      }
+      },
     },
 ]
 }, {timestamps:true});

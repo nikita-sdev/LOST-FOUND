@@ -37,7 +37,7 @@ exports.postLogin= async(req,res,next)=>{
 
 exports.postSignup= async(req,res,next)=>{
   try{
-    const {email,password}= req.body;
+    const {email,password,name}= req.body;
 
     if(!email || !password){
       return res.status(400).json({msg:"Both fields are required"});
@@ -56,7 +56,7 @@ exports.postSignup= async(req,res,next)=>{
 
     const hashedPass= await bcrypt.hash(password,10);
 
-    const  user= new User({email,password: hashedPass});
+    const  user= new User({email,password: hashedPass,name});
 
     await user.save();
     res.status(201).json({msg:"User created successfully"});
