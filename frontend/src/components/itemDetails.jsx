@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom"
-import { getItemById } from "../services/itemServices";
+import { useNavigate, useParams } from "react-router-dom"
+import { claimItem, getItemById } from "../services/itemServices";
 import { useEffect, useState } from "react";
 
 const ItemDetails=()=>{
   const {id}= useParams();
+  const navigate= useNavigate();
   const [item,setItem]= useState(null);
+  const [questions, setQuestions]= useState([]);
+  const [error,setError]= useState("");
 
   const fetchOneItem = async()=>{
     const res= await getItemById(id);
@@ -13,6 +16,10 @@ const ItemDetails=()=>{
   useEffect(()=>{
     fetchOneItem();
   },[id])
+
+  const handleClaim= async()=>{
+    navigate(`/verify/${id}`);
+  }
 
   if(!item)return <p>Loading..</p>
 
@@ -27,10 +34,24 @@ const ItemDetails=()=>{
         }`}>{item.type}</span>
 
         <p className="mt-2">Status: <b>{item.status || "available"}</b></p>
+        <p className="mt-2">{error}</p>
 
-        <button className="mt-4 w-full bg-green-500 text-white py-2 rounded">
-          Claim Item
-        </button>
+        {item.status === "available" && (
+          <button
+            onClick={handleClaim}
+            className="mt-4 w-full bg-green-500 text-white py-2 rounded"
+          >
+            Claim Item
+          </button>
+        )}
+
+        {item.status === "under_verification" && (
+          <p className="text-yellow-500 mt-3">
+            Under Verification...
+          </p>
+        )}
+
+        <button className="text-sm bg-blue-200 px-2 rounded-xl mt-5 hover:bg-blue-300"><a href="/home">Go back to home</a></button>
 
       </div>
     </div>
