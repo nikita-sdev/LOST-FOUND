@@ -65,7 +65,7 @@ return (
           <img
             src={item.image}
             alt="item"
-            className="w-100 h-50 object-cover rounded-lg mb-3"
+            className="w-100 h-100 object-cover rounded-lg mb-3"
           />
         )}
 

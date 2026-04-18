@@ -211,7 +211,6 @@ exports.generateDescription = async (req, res) => {
     // Initialize the model
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    // Prepare image data
     const imageParts = [
       {
         inlineData: {
@@ -237,7 +236,7 @@ exports.generateDescription = async (req, res) => {
 
   } catch (err) {
     // Log the actual error to your terminal for debugging
-    console.error("❌ AI Error Details:", err.message);
+    console.error("AI Error Details:", err.message);
     
     res.json({ description: "AI description can't be generated at the moment" });
   }
