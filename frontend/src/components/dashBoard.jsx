@@ -16,16 +16,28 @@ const DashBoard=()=>{
   },[])
 
   const fetchOwnerItems= async()=>{
-    const res= await getOwnerItemsFromServer();
-    if(res){
-    setItems(res);}
-    else{
-      console.log("no item");
+    try{
+      setLoading(true);
+      const res= await getOwnerItemsFromServer();
+      if(res){
+      setItems(res);}
+      else{
+        console.log("no item");
+      }
+    }
+    finally{
+      setLoading(false);
     }
   }
   const fetchOwnerItemsUnderVerification= async()=>{
-    const res= await getOwnerItemsUnderVerification();
+    try{
+      setLoading(true);
+      const res= await getOwnerItemsUnderVerification();
     setVerificationItems(res);
+    }
+    finally{
+      setLoading(false);
+    }
   }
 
   const handleDecision= async(itemid, claimId, action)=>{
@@ -66,7 +78,6 @@ const DashBoard=()=>{
       <Loader></Loader>
     )
   }
-
 
 return (
   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black text-gray-200 p-6">

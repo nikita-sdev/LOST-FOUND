@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { claimItem, getItemById } from "../services/itemServices";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Loader from "./loader";
 
 const ItemDetails=()=>{
   const {id}= useParams();
@@ -22,8 +23,9 @@ const ItemDetails=()=>{
     navigate(`/verify/${id}`);
   }
 
-  if(!item)return <p>Loading..</p>
-
+  if(!item)return(
+    <Loader></Loader>
+  )
 
 return (
   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black text-gray-200 px-6 py-12">
