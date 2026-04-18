@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://lost-found-hzzl.onrender.com";
 
 export const addLoginToServer= async (email,password,setError,setToken)=>{
   const res= await fetch(`${BASE_URL}/api/auth/login`, {
