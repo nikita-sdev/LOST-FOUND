@@ -67,7 +67,7 @@ export const claimItem= async(id,setError)=>{
 
 export const submitAnswers=async(id, formattedAnswers,setError)=>{
   const res = await fetch(
-        `http://localhost:5000/api/items/${id}/answers`,
+        `${BASE_URL}/api/items/${id}/answers`,
         {
           method: "POST",
           headers: {
@@ -160,18 +160,18 @@ export const deleteItemFromServer= async(id)=>{
   return await res.json();
 }
 
-//api to get ai description
-const getAIResponse= async(imageUrl)=>{
-  const res= await fetch (
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
-      process.env.GEMINI_KEY,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  )
-}
+// //api to get ai description
+// const getAIResponse= async(imageUrl)=>{
+//   const res= await fetch (
+//     "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
+//       process.env.GEMINI_KEY,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       }
+//     }
+//   )
+// }
 
 
