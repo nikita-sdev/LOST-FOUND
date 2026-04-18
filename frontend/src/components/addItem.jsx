@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { addItemToServer } from "../services/itemServices";
 import { motion } from "framer-motion";
 import Loader from "./loader";
+import { generateAIDescriptionFromImage } from "../services/itemServices";
 
 
 const AddItem=()=>{
@@ -11,6 +12,7 @@ const AddItem=()=>{
   const [loading, setLoading] = useState(false);
   const navigate= useNavigate();
   const [aiDescription, setAiDescription]= useState("");
+  const [loadingAi, setLoadingAi] = useState(false);
 
   const titleRef= useRef();
   const productRef=useRef();
@@ -56,6 +58,17 @@ const AddItem=()=>{
 
     setImage(file);
     setPreview(URL.createObjectURL(file));
+
+    setLoadingAi(true);
+
+    try {
+      const result = await generateAIDescriptionFromImage(file);
+      setAiDescription(result);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoadingAi(false);
 
   }
 
@@ -117,6 +130,28 @@ return (
           />
           {preview && (
             <img src={preview} className="w-40 h-40 rounded"/>
+          )}
+          {loadingAi && (
+            <p className="text-sm text-indigo-400 mt-2">
+              Generating AI description...
+            </p>
+          )}
+
+          {aiDescription && (
+            <div className="mt-3 bg-gray-900 p-4 rounded-xl border border-gray-700">
+              <p className="text-sm text-gray-400">AI Suggestion:</p>
+
+              <p className="text-white mt-1">{aiDescription}</p>
+
+              <button
+                onClick={() => {
+                  descriptionRef.current.value = aiDescription;
+                }}
+                className="mt-3 text-sm bg-indigo-600 hover:bg-indigo-500 px-3 py-1 rounded-lg transition"
+              >
+                Use this
+              </button>
+            </div>
           )}
         </div>
 

@@ -3,25 +3,6 @@ const User= require('../model/user');
 const cloudinary= require('../config/cloudinary');
 const user = require('../model/user');
 
-// exports.addItem= async(req,res,next)=>{
-//   try{
-//     const {title,product, description, location,type} =req.body;
-//     const user= req.userId;
-//     if(!title || !product || !description || !location || ! type) {
-//       return res.status(400).json({msg: "All fields are required"});
-//     }
-
-//     const item = new Item({
-//       title,product,description,location,type,user
-//     });
-
-//     await item.save();
-//     res.status(201).json({msg:"Item created"})
-//   }
-//   catch(err){
-//     res.status(500).json({msg:"Server error"});
-//   }
-// }
 
 exports.addItem= async(req,res,next)=>{
   try{
@@ -216,3 +197,48 @@ exports.deleteItem=async(req,res,next)=>{
 }
 
 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// AI Image Description Controller
+exports.generateDescription = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ msg: "No image uploaded" });
+    }
+
+    // Initialize the model
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+    // Prepare image data
+    const imageParts = [
+      {
+        inlineData: {
+          data: req.file.buffer.toString("base64"),
+          mimeType: req.file.mimetype,
+        },
+      },
+    ];
+
+    const prompt = `
+      Describe this item for a lost and found system. 
+      Be brief and objective. 
+      Mention the item name, color, and any unique markings (like stickers or damage). 
+      Avoid using words like 'beautiful' or 'nice'.
+    `;
+
+    // Generate content
+    const result = await model.generateContent([prompt, ...imageParts]);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ description: text });
+
+  } catch (err) {
+    // Log the actual error to your terminal for debugging
+    console.error("❌ AI Error Details:", err.message);
+    
+    res.json({ description: "AI description can't be generated at the moment" });
+  }
+};

@@ -34,6 +34,12 @@ router.get('/notifications', authMiddleware, itemController.getNotifications);
 //user upload image
 router.patch("/notifications/read", authMiddleware, itemController.markedNotificationsRead);
 
+router.post(
+  "/generate-description",
+  upload.single("image"),
+  itemController.generateDescription
+);
+
 
 
 module.exports= router;
