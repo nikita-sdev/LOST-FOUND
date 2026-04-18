@@ -207,9 +207,9 @@ exports.deleteItem=async(req,res,next)=>{
     return res.status(404).json({ msg: "Item not found" })
   }
 
-  if(item.status==="under_verification"){
-    return res.status(404).json({msg: "Cannot delete as item is under verification"});
-  }
+  // if(item.status==="under_verification"){
+  //   return res.status(404).json({msg: "Cannot delete as item is under verification"});
+  // }
 
   await Item.findByIdAndDelete(req.params.id);
   res.json({msg: "Item deleted successfully"});
