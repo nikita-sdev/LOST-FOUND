@@ -46,30 +46,30 @@ exports.getItemById= async(req,res,next)=>{
 }
 
 //claim api
-exports.claimItem = async(req,res,next)=>{
-  try{
-    const item= await Item.findById(req.params.id);
+// exports.claimItem = async(req,res,next)=>{
+//   try{
+//     const item= await Item.findById(req.params.id);
 
-    if (!item.status !=="available") {
-      return res.status(404).json({ msg: "Already claimed" });
-    }
+//     if (!item.status !=="available") {
+//       return res.status(404).json({ msg: "Already claimed" });
+//     }
 
-    item.status= "under_verification";
+//     item.status= "under_verification";
 
-    item.claims.push({
-      user:req.userId,
-      msg: req.body.message||"",
-    });
+//     item.claims.push({
+//       user:req.userId,
+//       msg: req.body.message||"",
+//     });
 
-    await item.save();
+//     await item.save();
 
-    res.json({msg: "Claim request sent successfully"
-    })
-  }
-  catch(err){
-    res.status(500).json({msg: "Server error"})
-  }
-}
+//     res.json({msg: "Claim request sent successfully"
+//     })
+//   }
+//   catch(err){
+//     res.status(500).json({msg: "Server error"})
+//   }
+// }
 
 //submit answers api
 exports.submitAnswers = async(req,res,next)=>{
@@ -82,9 +82,9 @@ exports.submitAnswers = async(req,res,next)=>{
       return res.status(404).json({ msg: "Item not found" });
     }
 
-    // if (item.user.toString() === req.userId) {
-    //   return res.status(400).json({ msg: "You cannot claim your own item" });
-    // }
+    if (item.user.toString() === req.userId) {
+      return res.status(400).json({ msg: "You cannot claim your own item" });
+    }
 
     if (item.status !== "available") {
       return res.status(400).json({ msg: "Item already in process" });

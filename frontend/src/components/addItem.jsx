@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { addItemToServer} from "../services/itemServices";
+import { motion } from "framer-motion";
 
 const AddItem=()=>{
 
@@ -28,115 +29,109 @@ const AddItem=()=>{
     
   }
 
-  return (
-    <div className="flex bg-gradient-to-r from-white via-blue-500 to-blue-200 min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-navi-700">
-            Add Post
-          </h2>
+return (
+  <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center px-4 py-12 text-gray-200">
+    
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="w-full max-w-lg bg-gray-800/80 backdrop-blur-lg border border-gray-700 rounded-3xl shadow-2xl p-8"
+    >
+      
+      {/* HEADER */}
+      <h2 className="text-3xl font-bold text-white text-center mb-6">
+        Add New Item
+      </h2>
+
+      {/* FORM */}
+      <div className="space-y-5">
+
+        {/* TITLE */}
+        <div>
+          <label className="block text-sm font-medium text-gray-400">
+            Title
+          </label>
+          <input
+            type="text"
+            ref={titleRef}
+            placeholder="e.g. Found school bag"
+            className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          />
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
-                Title
-              </label>
-              <div className="mt-2">
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  ref={titleRef}
-                  placeholder="eg: Found school bag"
-                  required
-                  className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
-                Product Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="product"
-                  name="product"
-                  type="text"
-                  ref={productRef}
-                  required
-                  placeholder="eg: Bag"
-                  className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
-                Description
-              </label>
-              <div className="mt-2">
-                <textarea
-                  type="text"
-                  ref={descriptionRef}
-                  required
-                  placeholder="eg: I found an school bag today in the New Gallery"
-                  className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-navi-300">
-                Location
-              </label>
-              <div className="mt-2">
-                <input
-                  id="location"
-                  name="location"
-                  type="text"
-                  ref={locationRef}
-                  placeholder="eg: New Gallery"
-                  required
-                  className="block w-full border-2 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mt-5">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-navi-300">
-                Type
-                </label>
-              </div>
-              <div className="mt-2">
-                <select
-                ref={typeRef}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 border-2 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                >
-                  <option value="lost">Lost</option>
-                  <option value="found">Found</option>
-                </select>
-              </div>
-            </div>
-
-            
-            <p className="text-red-400">{error}</p>
-
-            <div>
-
-              <button
-                type="submit"
-                onClick={handleAddItem}
-                className="flex w-full mt-5 justify-center rounded-md bg-sky-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-sky-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                
-              >
-                Add
-              </button>
-            </div>
+        {/* PRODUCT */}
+        <div>
+          <label className="block text-sm font-medium text-gray-400">
+            Product Name
+          </label>
+          <input
+            type="text"
+            ref={productRef}
+            placeholder="e.g. Bag"
+            className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          />
         </div>
+
+        {/* DESCRIPTION */}
+        <div>
+          <label className="block text-sm font-medium text-gray-400">
+            Description
+          </label>
+          <textarea
+            ref={descriptionRef}
+            placeholder="Describe the item..."
+            rows={3}
+            className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          />
+        </div>
+
+        {/* LOCATION */}
+        <div>
+          <label className="block text-sm font-medium text-gray-400">
+            Location
+          </label>
+          <input
+            type="text"
+            ref={locationRef}
+            placeholder="e.g. New Gallery"
+            className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          />
+        </div>
+
+        {/* TYPE */}
+        <div>
+          <label className="block text-sm font-medium text-gray-400">
+            Type
+          </label>
+          <select
+            ref={typeRef}
+            className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+          >
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+          </select>
+        </div>
+
+        {/* ERROR */}
+        {error && (
+          <p className="text-red-400 text-sm">{error}</p>
+        )}
+
+        {/* BUTTON */}
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          onClick={handleAddItem}
+          className="w-full mt-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-indigo-500/30 transition"
+        >
+          Add Item
+        </motion.button>
+
       </div>
-  )
+    </motion.div>
+  </div>
+);
 }
 
 export default AddItem;

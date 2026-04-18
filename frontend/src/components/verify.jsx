@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { submitAnswers, getItemById } from "../services/itemServices";
 
@@ -63,50 +64,76 @@ const Verify=()=>{
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gray-900 flex justify-center items-center p-4">
-      <div className="bg-white w-[450px] p-6 rounded-xl">
 
-        <h2 className="text-xl font-bold mb-2">
-          Verify Item: {item.title}
+return (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-900 to-black px-4 text-gray-200">
+    
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full max-w-2xl bg-gray-800/80 backdrop-blur-lg border border-gray-700 rounded-3xl shadow-2xl p-8"
+    >
+
+      {/* HEADER */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-white">
+          Verify Item
         </h2>
-
-        <p className="text-gray-600 mb-4">
-          Answer these questions to proceed with claim
+        <p className="text-gray-400 mt-1">
+          Answer the questions to confirm your claim for{" "}
+          <span className="text-indigo-400 font-medium">
+            {item.title}
+          </span>
         </p>
+      </div>
 
-        {/* QUESTIONS */}
+      {/* QUESTIONS */}
+      <div className="space-y-6">
         {QUESTIONS.map((q, i) => (
-          <div key={i} className="mb-4">
-            <p className="font-medium text-gray-700 mb-1">
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+            className="bg-gray-900 border border-gray-700 rounded-xl p-4"
+          >
+            <p className="text-sm text-gray-400 mb-1">
+              Question {i + 1}
+            </p>
+
+            <p className="font-medium text-gray-200 mb-3">
               {q}
             </p>
 
             <textarea
-              className="w-full border p-2 rounded"
-              rows="2"
+              rows="3"
               onChange={(e) => handleChange(i, e.target.value)}
-              placeholder="Your answer..."
+              placeholder="Type your answer clearly..."
+              className="w-full rounded-lg bg-gray-800 border border-gray-700 px-3 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
             />
-            
-          </div>
+          </motion.div>
         ))}
-        {error && (
-          <p className="text-red-500 text-sm mb-2">{error}</p>
-        )}
-
-
-
-        {/* SUBMIT */}
-        <button
-          onClick={handleSubmit}
-          className="w-full mt-10 bg-green-500 text-white py-2 rounded hover:bg-green-600"
-        >
-          Submit Answers
-        </button>
       </div>
-    </div>
-  );
+
+      {/* ERROR */}
+      {error && (
+        <p className="text-red-400 text-sm mt-4">{error}</p>
+      )}
+
+      {/* SUBMIT */}
+      <motion.button
+        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.02 }}
+        onClick={handleSubmit}
+        className="w-full mt-8 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-green-500/30 transition"
+      >
+        Submit Answers
+      </motion.button>
+
+    </motion.div>
+  </div>
+);
 }
 
 export default Verify;
