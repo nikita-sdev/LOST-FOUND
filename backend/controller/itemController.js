@@ -1,23 +1,60 @@
 const Item= require('../model/items');
 const User= require('../model/user');
+const cloudinary= require('../config/cloudinary');
+const user = require('../model/user');
+
+// exports.addItem= async(req,res,next)=>{
+//   try{
+//     const {title,product, description, location,type} =req.body;
+//     const user= req.userId;
+//     if(!title || !product || !description || !location || ! type) {
+//       return res.status(400).json({msg: "All fields are required"});
+//     }
+
+//     const item = new Item({
+//       title,product,description,location,type,user
+//     });
+
+//     await item.save();
+//     res.status(201).json({msg:"Item created"})
+//   }
+//   catch(err){
+//     res.status(500).json({msg:"Server error"});
+//   }
+// }
 
 exports.addItem= async(req,res,next)=>{
   try{
-    const {title,product, description, location,type} =req.body;
+    const { title, product, description, location, type}= req.body;
     const user= req.userId;
-    if(!title || !product || !description || !location || ! type) {
-      return res.status(400).json({msg: "All fields are required"});
+    console.log(req.userId);
+    if (!title || !product || !description || !location || !type) {
+      return res.status(400).json({ msg: "All fields are required" });
     }
 
-    const item = new Item({
-      title,product,description,location,type,user
-    });
+    let imageUrl= "";
 
+    //if image is uploaded
+    if(req.file){
+      const base64 = req.file.buffer.toString("base64");
+      const dataURI = `data:${req.file.mimetype};base64,${base64}`;
+      const result = await cloudinary.uploader.upload(dataURI);
+
+      imageUrl= result.secure_url;
+    }
+
+    // const aiDescription = await getAIResponse(imageUrl);
+
+    const item= new Item({
+      title,product, description, location, type, user, image: imageUrl
+    });
     await item.save();
-    res.status(201).json({msg:"Item created"})
+    res.status(201).json({msg: "Item created", item});
   }
   catch(err){
-    res.status(500).json({msg:"Server error"});
+    console.log(err);
+    res.status(500).json({msg: "Server error"});
+
   }
 }
 
@@ -45,31 +82,6 @@ exports.getItemById= async(req,res,next)=>{
   }
 }
 
-//claim api
-// exports.claimItem = async(req,res,next)=>{
-//   try{
-//     const item= await Item.findById(req.params.id);
-
-//     if (!item.status !=="available") {
-//       return res.status(404).json({ msg: "Already claimed" });
-//     }
-
-//     item.status= "under_verification";
-
-//     item.claims.push({
-//       user:req.userId,
-//       msg: req.body.message||"",
-//     });
-
-//     await item.save();
-
-//     res.json({msg: "Claim request sent successfully"
-//     })
-//   }
-//   catch(err){
-//     res.status(500).json({msg: "Server error"})
-//   }
-// }
 
 //submit answers api
 exports.submitAnswers = async(req,res,next)=>{
@@ -195,10 +207,12 @@ exports.deleteItem=async(req,res,next)=>{
     return res.status(404).json({ msg: "Item not found" })
   }
 
-  // if(item.status==="under_verification"){
-  //   return res.status(404).json({msg: "Cannot delete as item is under verification"});
-  // }
+  if(item.status==="under_verification"){
+    return res.status(404).json({msg: "Cannot delete as item is under verification"});
+  }
 
   await Item.findByIdAndDelete(req.params.id);
   res.json({msg: "Item deleted successfully"});
 }
+
+

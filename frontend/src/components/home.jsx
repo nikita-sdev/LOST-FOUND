@@ -2,17 +2,25 @@ import { useEffect, useState } from "react";
 import { getItemsFromServer } from "../services/itemServices";
 import { useNavigate } from "react-router-dom";
 import {motion} from 'framer-motion';
+import Loader from "./loader";
 
 const Home=()=>{
   const navigate= useNavigate()
   const [items,setItems]= useState([]);
   const [filter, setFilter]= useState("all");
   const [search, setSearch]= useState("");
+  const [loading, setLoading] = useState(false);
   
   //fatch items initially
   const fetchItems= async()=>{
-    const data= await getItemsFromServer();
-    setItems(data);
+    try{
+      setLoading(true);
+      const data= await getItemsFromServer();
+      setItems(data);
+    }
+    finally{
+      setLoading(false);
+    }
   }
 
   useEffect(()=>{
@@ -32,6 +40,9 @@ const Home=()=>{
     return matchFilter && matchSearch;
   })
 
+  if(loading)return(
+    <Loader></Loader>
+  )
 
   return (
   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black py-16 text-gray-200">
@@ -82,7 +93,6 @@ const Home=()=>{
 
       {/* GRID */}
       <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        
         {filteredItems.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
@@ -104,13 +114,13 @@ const Home=()=>{
               className="bg-gray-800/80 backdrop-blur-lg rounded-2xl border border-gray-700 shadow-lg p-5 flex flex-col justify-between hover:shadow-indigo-500/20 hover:border-indigo-500/40 transition"
             >
               {/* TOP */}
-              <div className="flex flex-wrap gap-2 text-xs mb-3">
+              <div className="flex capitalize flex-wrap gap-2 text-xs mb-3">
                 <span className="text-gray-400">
                   {new Date(item.createdAt).toDateString()}
                 </span>
 
                 <span
-                  className={`px-3 py-1 rounded-full font-medium ${
+                  className={`px-3 py-1 rounded-full capitalize font-medium ${
                     item.type === "lost"
                       ? "bg-red-500/20 text-red-400"
                       : "bg-green-500/20 text-green-400"
@@ -122,8 +132,12 @@ const Home=()=>{
                 <span className="px-3 py-1 rounded-full bg-gray-700 text-gray-300">
                   Status:
                   <span
-                    className={`ml-1 font-semibold ${
+                    className={`ml-1 capitalize font-semibold ${
                       item.status === "returned"
+                        ? "text-red-400"
+                        : item.status === "under_verification"
+                        ? "text-yellow-400"
+                        : item.status === "available"
                         ? "text-green-400"
                         : "text-blue-400"
                     }`}
@@ -133,17 +147,26 @@ const Home=()=>{
                 </span>
               </div>
 
+              {/* IMAGE */}
+                {item.image && (
+                  <img
+                    src={item.image}
+                    alt="item"
+                    className="w-full h-40 object-cover rounded-lg mb-3"
+                  />
+                )}
+
               {/* CONTENT */}
               <div className="flex-grow">
-                <h3 className="text-xl font-bold text-white">
+                <h3 className="text-xl capitalize font-bold text-white">
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-sm font-medium text-indigo-400">
+                <p className="mt-2 capitalize text-sm font-medium text-indigo-400">
                   {item.product}
                 </p>
 
-                <p className="mt-2 text-sm text-gray-400 line-clamp-3">
+                <p className="mt-2 first-letter:uppercase text-sm text-gray-400 line-clamp-3">
                   {item.description}
                 </p>
               </div>

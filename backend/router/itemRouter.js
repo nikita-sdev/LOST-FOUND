@@ -1,5 +1,7 @@
 const express= require('express');
 
+const upload = require("../config/multer");
+
 //local modules
 const itemController= require('../controller/itemController');
 //middleware;
@@ -8,13 +10,11 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router= express.Router();
 
-router.post("/add-post",authMiddleware, itemController.addItem);
+router.post("/add-post",authMiddleware, upload.single("image"), itemController.addItem);
 
 router.get("/home", authMiddleware, itemController.getItem);
 
 router.get("/items/:id", itemController.getItemById);
-
-// router.post("/items/:id/claim", authMiddleware, itemController.claimItem);
 
 router.post("/items/:id/answers", authMiddleware, itemController.submitAnswers);
 
@@ -31,6 +31,9 @@ router.patch("/items/:itemId/claims/:claimId", authMiddleware, itemController.de
 
 router.get('/notifications', authMiddleware, itemController.getNotifications);
 
+//user upload image
 router.patch("/notifications/read", authMiddleware, itemController.markedNotificationsRead);
+
+
 
 module.exports= router;

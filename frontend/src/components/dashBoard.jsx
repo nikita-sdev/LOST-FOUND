@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { decideClaim, deleteItemFromServer, getOwnerItemsFromServer, getOwnerItemsUnderVerification } from "../services/itemServices";
+import { useNavigate } from "react-router-dom";
+import Loader from "./loader";
 
 const DashBoard=()=>{
+  const navigate= useNavigate();
   const [items,setItems]= useState([]);
   const [verificationItems, setVerificationItems]= useState([]);
+  const [loading, setLoading]= useState();
 
   useEffect(()=>{
     fetchOwnerItems();
@@ -25,24 +29,42 @@ const DashBoard=()=>{
   }
 
   const handleDecision= async(itemid, claimId, action)=>{
-    const res= await decideClaim(itemid, claimId, action);
+    try{
+      setLoading(true);
+      const res= await decideClaim(itemid, claimId, action);
     if(res){
       fetchOwnerItems();
       fetchOwnerItemsUnderVerification();
     }
+    }
+    catch(error){
+      console.log(error);
+    }
+    finally{
+      setLoading(false);
+    }
   }
 
   const handleDeleteItem= async(id)=>{
-    const confirmDelete= window.confirm("Are you sure you want to delete?");
-
-    if(!confirmDelete)return;
-
-    const res= await deleteItemFromServer(id);
-
-    if(res){
-      fetchOwnerItems();
+    try{
+      setLoading(true);
+      const res= await deleteItemFromServer(id);
+      if(res){
+        fetchOwnerItems();
+      }
     }
+    catch(err){
+      console.log(err)
+    }
+    finally{
+      setLoading(false);
+    }
+  }
 
+  if(loading){
+    return (
+      <Loader></Loader>
+    )
   }
 
 
@@ -69,6 +91,7 @@ return (
 
       {/* POSTS GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {items.length===0 && <h1 className="text-gray-400 text-lg">No Posts</h1>}
         {items.map((item, i) => (
           <motion.article
             key={item._id}
@@ -85,7 +108,7 @@ return (
               </span>
 
               <span
-                className={`px-3 py-1 rounded-full font-medium ${
+                className={`px-3 capitalize py-1 rounded-full font-medium ${
                   item.type === "lost"
                     ? "bg-red-500/20 text-red-400"
                     : "bg-green-500/20 text-green-400"
@@ -93,26 +116,46 @@ return (
               >
                 {item.type}
               </span>
+              <span className="px-3 py-1 rounded-full bg-gray-700 text-gray-300">
+                  Status:
+                  <span
+                    className={`ml-1 capitalize font-semibold ${
+                      item.status === "returned"
+                        ? "text-red-400"
+                        : item.status === "under_verification"
+                        ? "text-yellow-400"
+                        : item.status === "available"
+                        ? "text-green-400"
+                        : "text-blue-400"
+                    }`}
+                  >
+                    {item.status}
+                  </span>
+                </span>
             </div>
 
             {/* CONTENT */}
             <div className="flex-grow">
-              <h3 className="text-xl font-bold text-white">
+              <h3 className="text-xl capitalize font-bold text-white">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-sm text-indigo-400 font-medium">
-                {item.product}
-              </p>
-
-              <p className="mt-2 text-sm text-gray-400 line-clamp-3">
+              <p className="mt-2 text-sm text-gray-400 line-clamp-3 first-letter:uppercase">
                 {item.description}
               </p>
             </div>
 
             {/* FOOTER */}
-            <div className="mt-5 flex justify-between items-center text-sm">
+            <div className="mt-5 flex justify-between items-center capitalize text-sm">
               <p className="text-gray-400">📍 {item.location}</p>
+              <div>
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => navigate(`/item/${item._id}`)}
+                  className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-1 rounded-md shadow hover:shadow-indigo-500/30 transition mr-2"
+                >
+                  View
+                </motion.button>
 
               <motion.button
                 whileTap={{ scale: 0.9 }}
@@ -121,9 +164,11 @@ return (
               >
                 Delete
               </motion.button>
+              </div>
             </div>
           </motion.article>
         ))}
+        
       </div>
 
       {/* UNDER VERIFICATION */}
@@ -151,12 +196,12 @@ return (
             >
               {/* ITEM HEADER */}
               <div className="flex justify-between items-center mb-3">
-                <p className="text-lg font-semibold text-white">
+                <p className="text-lg font-semibold text-white capitalize">
                   {item.title}
                 </p>
 
                 <span
-                  className={`px-3 py-1 text-xs rounded-full font-semibold ${
+                  className={`px-3 py-1 text-xs rounded-full font-semibold capitalize ${
                     item.type === "lost"
                       ? "bg-red-500/20 text-red-400"
                       : "bg-green-500/20 text-green-400"
@@ -166,7 +211,7 @@ return (
                 </span>
               </div>
 
-              <p className="text-sm text-gray-400 mb-3">
+              <p className="text-sm capitalize text-gray-400 mb-3">
                 📍 {item.location}
               </p>
 

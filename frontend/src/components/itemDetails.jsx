@@ -38,18 +38,18 @@ return (
       >
 
         {/* HEADER */}
-        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+        <div className="flex flex-row mb-4 md:flex-row justify-between items-start gap-4">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+            <h2 className="text-4xl sm:text-4xl font-bold text-white capitalize">
               {item.title}
             </h2>
-            <p className="mt-2 text-gray-400 text-sm">
+            <p className="mt-2 text-gray-400 text-xl capitalize">
               📍 {item.location}
             </p>
           </div>
 
           <span
-            className={`px-4 py-1 rounded-full text-sm font-semibold ${
+            className={`px-4 py-1 rounded-full text-sm font-semibold capitalize mb-3 ${
               item.type === "lost"
                 ? "bg-red-500/20 text-red-400"
                 : "bg-green-500/20 text-green-400"
@@ -59,26 +59,36 @@ return (
           </span>
         </div>
 
+        {item.image && (
+          <img
+            src={item.image}
+            alt="item"
+            className="w-100 h-50 object-cover rounded-lg mb-3"
+          />
+        )}
+
         {/* DESCRIPTION */}
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-300 mb-2">
+          <h3 className="text-xl font-semibold text-blue-300 mb-2">
             Description
           </h3>
-          <p className="text-gray-400 leading-relaxed">
+          <p className="text-gray-400 leading-relaxed text-xl first-letter:uppercase">
             {item.description}
           </p>
         </div>
 
         {/* STATUS BOX */}
         <div className="mt-6 p-4 rounded-xl bg-gray-900 border border-gray-700">
-          <p className="text-sm text-gray-400">
+          <p className="text-lg text-gray-400">
             Status:
             <span
-              className={`ml-2 font-semibold ${
+              className={`ml-2 text-lg font-semibold ${
                 item.status === "returned"
-                  ? "text-green-400"
+                  ? "text-red-400"
                   : item.status === "under_verification"
                   ? "text-yellow-400"
+                  : item.status === "available"
+                  ? "text-green-400"
                   : "text-blue-400"
               }`}
             >
@@ -103,7 +113,7 @@ return (
               animate={{ opacity: 1 }}
               className="text-green-400 mt-2"
             >
-              ✅ Item Returned
+                Item Returned
             </motion.p>
           )}
 

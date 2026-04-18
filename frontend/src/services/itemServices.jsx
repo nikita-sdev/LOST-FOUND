@@ -1,14 +1,13 @@
 const BASE_URL = "http://localhost:5000";
 
-export const addItemToServer= async (title,product, description, location,type,setError)=>{
+export const addItemToServer= async (formData,setError)=>{
   const token= localStorage.getItem("token");
   const res= await fetch(`${BASE_URL}/api/add-post`, {
     method: "POST",
     headers:{
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({title,product, description, location,type})
+    body: formData,
   })
   
   const data= await res.json();
@@ -160,3 +159,19 @@ export const deleteItemFromServer= async(id)=>{
 
   return await res.json();
 }
+
+//api to get ai description
+const getAIResponse= async(imageUrl)=>{
+  const res= await fetch (
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
+      process.env.GEMINI_KEY,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  )
+}
+
+

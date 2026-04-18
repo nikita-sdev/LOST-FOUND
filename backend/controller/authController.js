@@ -25,7 +25,7 @@ exports.postLogin= async(req,res,next)=>{
     const token = jwt.sign(
       {id:user._id},
       process.env.JWT_KEY,
-      {expiresIn: "1d"}
+      {expiresIn: "10d"}
     );
 
     res.json({token});

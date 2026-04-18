@@ -13,6 +13,7 @@ const itemSchema= mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:"User",
   },
+  image: String,
   status: {
   type: String,
   enum: ["available", "under_verification", "returned","rejected"],

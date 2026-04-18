@@ -1,18 +1,24 @@
 import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { addItemToServer} from "../services/itemServices";
+import { addItemToServer } from "../services/itemServices";
 import { motion } from "framer-motion";
+import Loader from "./loader";
+
 
 const AddItem=()=>{
 
   const [error, setError]= useState("");
-  const navigate= useNavigate()
+  const [loading, setLoading] = useState(false);
+  const navigate= useNavigate();
+  const [aiDescription, setAiDescription]= useState("");
 
   const titleRef= useRef();
   const productRef=useRef();
   const descriptionRef= useRef();
   const locationRef= useRef();
   const typeRef= useRef();
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const handleAddItem= async()=>{
     const title= titleRef.current.value
@@ -21,17 +27,46 @@ const AddItem=()=>{
     const location= locationRef.current.value
     const type= typeRef.current.value
 
-    const res= await addItemToServer(title,product,description,location,type,setError);
-    console.log(res);
-    if(res){
-      navigate('/home')
+    const formData= new FormData();
+
+    formData.append("title", title);
+    formData.append("product", product);
+    formData.append("description", description);
+    formData.append("location", location);
+    formData.append("type", type);
+    formData.append("image", image);
+
+    try{
+      setLoading(true);
+      const res= await addItemToServer(formData,setError);
+      console.log(res);
+      if(res){
+        navigate('/home')
+      }
     }
-    
+    catch{
+      setError("Something went wrong");
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  const handleImage= async (e)=>{
+    const file= e.target.files[0];
+
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+
+  }
+
+  if(loading){
+    return (
+      <Loader></Loader>
+    )
   }
 
 return (
   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center px-4 py-12 text-gray-200">
-    
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
@@ -73,6 +108,18 @@ return (
           />
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-400">
+            Image
+          </label>
+          <input type="file" onChange={handleImage} 
+          className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+          />
+          {preview && (
+            <img src={preview} className="w-40 h-40 rounded"/>
+          )}
+        </div>
+
         {/* DESCRIPTION */}
         <div>
           <label className="block text-sm font-medium text-gray-400">
@@ -84,6 +131,7 @@ return (
             rows={3}
             className="mt-2 w-full rounded-xl bg-gray-900 border border-gray-700 px-4 py-2 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 outline-none transition"
           />
+          
         </div>
 
         {/* LOCATION */}
@@ -112,6 +160,7 @@ return (
             <option value="found">Found</option>
           </select>
         </div>
+
 
         {/* ERROR */}
         {error && (

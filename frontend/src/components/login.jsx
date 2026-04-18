@@ -2,20 +2,39 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { addLoginToServer } from "../services/authServices";
 import { useNavigate } from "react-router-dom";
+import Loader from "./loader";
 
 const Login=({setToken})=>{
   const navigate= useNavigate();
   const [email,setEmail]= useState("");
   const [password,setPassword] =useState('');
   const [error, setError]= useState("");
+  const [loading,setLoading]= useState(false);
   
   const handleLogin=async()=>{
-    const res=await addLoginToServer(email,password, setError,setToken);
+    try{
+      setLoading(true);
+      const res=await addLoginToServer(email,password, setError,setToken);
     if(res){
       navigate("/home");
     }else{
       navigate("/login");
     }
+    }
+    catch{
+      setError("Something went wrong");
+    }
+    finally{
+      setLoading(false);
+    }
+  }
+
+  if(loading){
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black flex items-center justify-center px-4 py-12 size-4 text-gray-200">
+        <Loader></Loader>
+      </div>
+    )
   }
 
 return (
