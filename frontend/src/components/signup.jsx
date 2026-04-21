@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addSignupToServer } from "../services/authServices";
-import {Loader} from './loader';
+import Loader  from './loader';
 
 const Signup= ()=>{
   const navigate= useNavigate();
