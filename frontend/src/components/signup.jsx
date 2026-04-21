@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addSignupToServer } from "../services/authServices";
+import {Loader} from './loader';
 
 const Signup= ()=>{
   const navigate= useNavigate();
@@ -9,16 +10,27 @@ const Signup= ()=>{
   const [password, setPassword]= useState("");
   const [error, setError]= useState("");
   const [name, setName]= useState("");
+  const [loading, setLoading]= useState(false);
 
   const handleSignup=async()=>{
-    const res= await addSignupToServer(email,password,name,setError);
-    if(res){
-      navigate("/login");
+    try{
+      setLoading(true);
+      const res= await addSignupToServer(email,password,name,setError);
+      if(res){
+        navigate("/login");
+      }
+    }
+    finally{
+      setLoading(false);
     }
   }
 
 
 const [show, setShow] = useState(false);
+
+if(loading)return(
+  <Loader></Loader>
+)
 
 return (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-900 to-black px-4 text-gray-200">

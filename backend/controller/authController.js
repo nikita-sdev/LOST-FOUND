@@ -13,13 +13,13 @@ exports.postLogin= async(req,res,next)=>{
 
     const user= await User.findOne({email});
     if(!user){
-      return res.status(400).json({msg: "Invalid email"});
+      return res.status(400).json({msg: "User not found, PLease register.."});
     }
 
     const match = await bcrypt.compare(password,user.password);
 
     if(!match){
-      return res.status(400).json({msg:"Incorrect password, please retry"});
+      return res.status(400).json({msg:"Incorrect password, try again"});
     }
 
     const token = jwt.sign(

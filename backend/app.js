@@ -12,7 +12,7 @@ app.use(cors({
   origin: "*",
 }));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
 app.use('/api', itemRouter);
