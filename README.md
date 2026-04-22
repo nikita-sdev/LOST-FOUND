@@ -1,7 +1,6 @@
 # Smart Lost & Found Management System
 
-A web-based platform to efficiently manage lost and found items on campus.  
-This system helps users report items, search listings, and securely claim items through a verification process.
+A full-stack web application designed to streamline the process of reporting, searching, and reclaiming lost items within a campus environment. The system ensures structured data management, secure claim verification, and an intuitive user experience.
 
 ---
 
@@ -18,15 +17,17 @@ To build a platform where users can:
 - Search and filter items easily
 - Claim items securely
 - Verify ownership before returning items
+- Track the status of items transparently
 
 ---
 
 ## Features
 
 ### Item Management
-- Add lost or found items
-- View all posted items
-- Detailed item view page
+- Create listings for lost and found items
+- Upload images for better identification
+- View all items with detailed information
+- Individual item detail page with complete metadata
 
 ### Search & Filter
 - Filter items by type (Lost / Found)
@@ -36,18 +37,33 @@ To build a platform where users can:
 - Users can claim items
 - Claimers answer verification questions
 - Owner reviews answers before approval
+- Prevents false claims and ensures authenticity
 
 ### Status Tracking
 Each item has a status:
-- `available`
-- `under_verification`
-- `returned`
-- `rejected`
+- `available` - item is open for claims
+- `under_verification` - claim is being reviewed
+- `returned` - item successfully claimed and returned
+- `rejected` - claim denied
 
 ### Owner Dashboard
 - View all posted items
 - See claims on items
-- Approve or reject claims
+- Accept or reject claims based on verification responses
+
+### Authentication and Security
+- User authentication using JWT
+- Secure login and registration system
+- Protected routes for authorized actions
+
+### AI-Based Description (New Feature)
+- Automatically generates item descriptions from uploaded images
+- Uses AI to improve accuracy and reduce manual effort
+- Helps users who may provide incomplete descriptions
+
+### Image Handling
+- Image upload handled via Multer
+- Efficient storage and retrieval using Cloudinary
 
 ### Notification System
 - Users get notified when:
@@ -61,6 +77,7 @@ Each item has a status:
 ### Frontend
 - React.js
 - Tailwind CSS
+- React Router
 
 ### Backend
 - Node.js
@@ -72,39 +89,50 @@ Each item has a status:
 ### Authentication
 - JWT (JSON Web Tokens)
 
+### File Handling and Media
+- Multer (file upload middleware)
+- Cloudinary (image storage)
+
+### AI Integration
+- Google Gemini API for image-based description generation
+
 ---
 
 ## How It Works
 
-1. User posts a lost/found item  
-2. Another user searches and finds a match  
-3. User submits a claim with answers  
-4. Owner verifies answers  
-5. Owner:
-   - Approves → item marked as returned  
-   - Rejects → item becomes available again  
-6. User gets notified of the decision  
-
+1. A user reports a lost or found item with details and image
+2. The system stores item data and generates an optional AI description
+3. Other users search or browse items
+4. A user submits a claim with verification answers
+5. The item owner reviews the claim
+6. Owner decision:
+     - Approve → item marked as returned
+     - Reject → item becomes available again
+7. Claimant is notified of the result
 ---
+
+### Deployment
+- Frontend deployed on Vercel
+- Backend deployed on Render
+
+Ensure environment variables are properly configured for:
+
+- JWT secret
+- Database connection
+- Cloudinary credentials
+- Gemini API key
 
 ## Future Improvements
 
 - Smart matching system using keywords & similarity
-- Add notification when claims on the owner 
-  dashboard
-- Improve verification
-- Improved UI/UX
+- Location-based heatmap for lost items
+- Enhanced notification system (real-time updates)
+- Improved claim verification mechanism
+- Role-based access control
 
 ---
 
+### Conclusion
+
+This system provides a structured, scalable, and secure approach to managing lost and found items. By combining modern web technologies with AI-assisted features, it improves efficiency, usability, and trust in the recovery process.
 ---
-
-##  Team
-
-- Nikita Sharma
-- Arunangshu Raj Dey
-
----
-
-## Note
-- AI tools were used for guidance and learning purposes during development.
